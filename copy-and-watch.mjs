@@ -52,7 +52,8 @@ export default function copyAndWatch(config) {
         },
         async generateBundle() {
             resolvedConfig.targets.forEach(target => {
-                const contents = fs.readFileSync(target.src);
+                // read file as utf8 string if a transform is provided, otherwise read as raw buffer
+                const contents = fs.readFileSync(target.src, target.transform ? 'utf8' : null);
                 this.emitFile({
                     type: 'asset',
                     fileName: target.dest,
